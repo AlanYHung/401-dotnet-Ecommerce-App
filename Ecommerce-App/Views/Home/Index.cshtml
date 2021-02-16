@@ -1,1 +1,12 @@
-﻿
+﻿@model IEnumerable<Ecommerce_App.Models.Category>
+
+<h1>Product Categories</h1>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <a asp-controller="Home" asp-action="CategoryDetails" asp-route-id=@item.Id asp-route-name=@item.Name>@item.Name</a>
+        </li>
+    }
+</ul>

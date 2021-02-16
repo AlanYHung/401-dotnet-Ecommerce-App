@@ -8,9 +8,9 @@ namespace Ecommerce_App.Models.Interfaces
 {
     public interface IProduct
     {
-        Task<Product> Create(ProductDTO Product);
+        Task<Product> CreateProduct(ProductDTO Product);
         Task<ProductDTO> GetProduct(int id);
-        Task<List<ProductDTO>> GetCategories();
+        Task<List<ProductDTO>> GetProducts();
         Task<Product> UpdateProduct(int id, ProductDTO Product);
         Task DeleteProduct(int id);
     }

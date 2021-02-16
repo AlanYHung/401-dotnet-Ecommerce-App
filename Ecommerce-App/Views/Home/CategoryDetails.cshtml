@@ -1,0 +1,21 @@
+﻿@model Ecommerce_App.Models.Category
+
+<h1>Category Details</h1>
+
+<article>
+    @Model.Name
+</article>
+
+<h2>Products List</h2>
+
+<ul>
+    @foreach (var catProd in Model.CategoryProductsList)
+    {
+        foreach (var item in catProd.ProductList)
+        {
+            <li>
+                <a asp-controller="Home" asp-action="ProductDetails" asp-route-id=@item.Id asp-route-name=@item.Name asp-route-price=@item.Price>@item.Name</a>
+            </li>
+        }
+    }
+</ul>
