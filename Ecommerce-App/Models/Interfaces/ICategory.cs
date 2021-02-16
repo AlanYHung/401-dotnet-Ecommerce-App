@@ -8,7 +8,7 @@ namespace Ecommerce_App.Models.Interfaces
 {
     public interface ICategory
     {
-        Task<Category> Create(CategoryDTO Category);
+        Task<Category> CreateCategory(CategoryDTO Category);
         Task<CategoryDTO> GetCategory(int id);
         Task<List<CategoryDTO>> GetCategories();
         Task<Category> UpdateCategory(int id, CategoryDTO Category);
