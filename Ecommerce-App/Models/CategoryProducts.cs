@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Ecommerce_App.Models
 {
@@ -10,7 +7,7 @@ namespace Ecommerce_App.Models
     public int CategoryId { get; set; }
     public int ProductId { get; set; }
 
-    public List<Category> CategoryList { get; set; }
-    public List<Product> ProductList { get; set; }
+    public Category Category { get; set; }
+    public Product Product { get; set; }
   }
 }

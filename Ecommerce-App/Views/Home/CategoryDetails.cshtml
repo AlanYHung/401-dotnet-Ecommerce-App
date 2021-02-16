@@ -11,11 +11,8 @@
 <ul>
     @foreach (var catProd in Model.CategoryProductsList)
     {
-        foreach (var item in catProd.ProductList)
-        {
-            <li>
-                <a asp-controller="Home" asp-action="ProductDetails" asp-route-id=@item.Id asp-route-name=@item.Name asp-route-price=@item.Price>@item.Name</a>
-            </li>
-        }
+        <li>
+@*            <a asp-controller="Home" asp-action="ProductDetails" asp-route-id=@item.Id asp-route-name=@item.Name asp-route-price=@item.Price>@item.Name</a>*@
+        </li>
     }
 </ul>
