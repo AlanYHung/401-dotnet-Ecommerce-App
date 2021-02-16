@@ -1,27 +1,33 @@
 ﻿using Ecommerce_App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Ecommerce_App.Auth;
+using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace Ecommerce_App.Data
 {
-  public class ECommerceDbContext : IdentityDbContext //<ApplicationUser>
+  public class ECommerceDbContext : IdentityDbContext<AuthUser>
   {
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<CategoryProducts> CategoryProducts { get; set; }
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> DBCategories { get; set; }
+    public DbSet<CategoryProducts> DBCategoryProducts { get; set; }
+    public DbSet<Product> DBProducts { get; set; }
 
-    public ECommerceDbContext(DbContextOptions options) { }//: base(options) 
+    public ECommerceDbContext(DbContextOptions options) : base(options)
+    {
+
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<CategoryProducts>().HasKey(
-      categoryProducts => new { categoryProducts.CategoryId, categoryProducts.ProductId });
+                categoryProducts => new { categoryProducts.CategoryId, categoryProducts.ProductId });
+
+      SeedRole(modelBuilder, "Administrator", "read", "create", "update", "delete");
+      SeedRole(modelBuilder, "Editor", "read", "create", "update");
+      SeedRole(modelBuilder, "Writer", "read", "create");
 
       //---------Category Seeds
       modelBuilder.Entity<Category>().HasData(new Category
@@ -162,6 +168,32 @@ namespace Ecommerce_App.Data
         CategoryId = 3,
         ProductId = 9
       });
+    }
+
+    private int nextId = 1; // we need this to generate a unique id on our own
+    private void SeedRole(ModelBuilder modelBuilder, string roleName, params string[] permissions)
+    {
+      var role = new IdentityRole
+      {
+        Id = roleName.ToLower(),
+        Name = roleName,
+        NormalizedName = roleName.ToUpper(),
+        ConcurrencyStamp = Guid.Empty.ToString()
+      };
+
+      modelBuilder.Entity<IdentityRole>().HasData(role);
+
+      // Go through the permissions list (the params) and seed a new entry for each
+      var roleClaims = permissions.Select(permission =>
+      new IdentityRoleClaim<string>
+      {
+        Id = nextId++,
+        RoleId = role.Id,
+        ClaimType = "permissions", // This matches what we did in Startup.cs
+        ClaimValue = permission
+      }).ToArray();
+
+      modelBuilder.Entity<IdentityRoleClaim<string>>().HasData(roleClaims);
     }
   } // end of class
 } // end of namespace

@@ -1,4 +1,5 @@
 ﻿using Ecommerce_App.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,15 @@ namespace Ecommerce_App.Controllers
 {
   public class HomeController : Controller
   {
-    public IActionResult Index()
+    public IActionResult Index(/*string zip*/)
     {
+      /*if(zip != null)
+      {
+        CookieOptions cookieOptions = new CookieOptions(); 
+        cookieOptions.Expires = new DateTimeOffset(DateTime.Now.AddDays(7)); // Sets Cookie to expire in a week
+        HttpContext.Response.Cookies.Append("zipCode", zip, cookieOptions); // Adds a cookie to user
+      }*/
+
       List<Category> categoryList = new List<Category>()
       {
         new Category() { Id = 1, Name = "Zoas" },
@@ -23,7 +31,7 @@ namespace Ecommerce_App.Controllers
 
     public IActionResult CategoryDetails(int id, string name)
     {
-      Category catObj = new Category()
+/*      Category catObj = new Category()
       {
         Id = id,
         Name = name,
@@ -31,7 +39,7 @@ namespace Ecommerce_App.Controllers
         {
           new CategoryProducts
           {
-            CategoryId = id, ProductId = 1, ProductList = new List<Product>
+            CategoryId = id, ProductId = 1, Product = new Product
                                             {
                                               new Product() { Id = 1, Name = "Test1", Price = 9.99M },
                                               new Product() { Id = 2, Name = "Test2", Price = 99.99M },
@@ -39,9 +47,9 @@ namespace Ecommerce_App.Controllers
                                             }
           }
         }
-      };
+      };*/
 
-      return View(catObj);
+      return View();
     }
 
     public IActionResult ProductDetails(int id, string name, decimal price)
@@ -55,5 +63,16 @@ namespace Ecommerce_App.Controllers
 
       return View(newProduct);
     }
+
+    /// <summary>
+    /// Class Demo
+    /// </summary>
+    /// <returns></returns>
+    /*public IActionResult Weather()
+    {
+      string zip = HttpContext.Request.Cookies["zipCode"]; //picks up cookie
+      ViewData["zip"] = zip; // sends cookie to display in View
+      return View();
+    }*/
   } // end of class
 } // end of namespace
